@@ -5,14 +5,12 @@ const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-// show loading
-function loading() {
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete() {
+function removeLoadingSpinner() {
   if (!loader.hidden) {
     quoteContainer.hidden = false;
     loader.hidden = true;
@@ -21,7 +19,7 @@ function complete() {
 
 // Get Quote From API
 async function getQuote() {
-  loading();
+  showLoadingSpinner();
 
   const proxyUrl = 'https://dalatcoder-proxy-server.herokuapp.com/';
   const apiUrl =
@@ -41,8 +39,7 @@ async function getQuote() {
     }
     quoteText.innerText = data.quoteText;
 
-    // Stop loader, Show quote
-    complete();
+    removeLoadingSpinner();
   } catch (error) {
     // getQuote();
     console.log('whoops, no quote', error);
