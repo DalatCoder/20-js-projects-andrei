@@ -24,10 +24,21 @@ async function getQuote() {
     }
     quoteText.innerText = data.quoteText;
   } catch (error) {
-    getQuote();
+    // getQuote();
     console.log('whoops, no quote', error);
   }
 }
+
+function tweetQuote() {
+  const author = authorText.innerText;
+  const quote = quoteText.innerText;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}.`;
+  window.open(twitterUrl, '_blank');
+}
+
+// Event listeners
+newQuoteBtn.addEventListener('click', getQuote);
+twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
 getQuote();
