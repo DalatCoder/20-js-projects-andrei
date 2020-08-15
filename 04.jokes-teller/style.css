@@ -35,13 +35,13 @@ button {
   border: none;
   border-radius: 5px;
   box-shadow: 2px 2px 20px 10px rgba(0, 0, 0, 0.2);
- 	
+
   -webkit-backface-visibility: hidden; /* add to fix webkit bug jitter */
   backface-visibility: hidden;
-  -webkit-transform: perspective(1000px) translateZ(0) scale(1.0, 1.0); /* add to fix webkit bug jitter */ 
-  transform: perspective(1000px) translateZ(0) scale(1.0, 1.0);
+  -webkit-transform: perspective(1000px) translateZ(0) scale(1, 1); /* add to fix webkit bug jitter */
+  transform: perspective(1000px) translateZ(0) scale(1, 1);
 
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 button:hover {
@@ -57,6 +57,38 @@ button:disabled {
   filter: brightness(30%);
 }
 
+.joke {
+  margin-top: 10px;
+  padding: 10px;
+  width: auto;
+  max-width: 400px;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 17px;
+  color: white;
+  background-color: rgba(255, 52, 130, 0.9);
+
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+.loader {
+  animation-name: appear;
+  animation-duration: 1s;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 /* Media query: Tablet or Smaller */
 @media screen and (max-width: 1000px) {

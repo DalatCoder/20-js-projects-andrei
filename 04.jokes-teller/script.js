@@ -1,3 +1,8 @@
+const mainButton = document.getElementById('button');
+const jokeElement = document.getElementById('joke');
+const audioElement = document.getElementById('audio');
+const spinnerLoading = document.getElementById('loader');
+
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
   speech: function (e) {
@@ -101,3 +106,81 @@ const VoiceRSS = {
     throw 'The browser does not support HTTP request';
   },
 };
+
+function textToSpeech(text) {
+  VoiceRSS.speech({
+    key: '48b4ea614ffb4ef282590b3c749265b9',
+    src: text,
+    hl: 'en-us',
+    r: 0,
+    c: 'mp3',
+    f: '44khz_16bit_stereo',
+    ssml: false,
+  });
+}
+
+// Get jokes from Joke API
+async function getJokes() {
+  try {
+    let joke = '';
+    const apiUrl =
+      'https://sv443.net/jokeapi/v2/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist';
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.setup) {
+      joke = `${data.setup} ... ${data.delivery}`;
+    } else {
+      joke = data.joke;
+    }
+
+    return joke;
+  } catch (error) {
+    throw error; // catch in main
+  }
+}
+
+function disableMainButton() {
+  mainButton.disabled = true;
+}
+function enableMainButton() {
+  mainButton.disabled = false;
+}
+function displayJoke(joke) {
+  jokeElement.hidden = false;
+  jokeElement.innerText = joke;
+}
+function hideJoke() {
+  jokeElement.hidden = true;
+  jokeElement.innerText = '';
+}
+function displaySpinnerLoading() {
+  spinnerLoading.hidden = false;
+}
+function hideSpinnerLoading() {
+  spinnerLoading.hidden = true;
+}
+
+function onAudioEnded() {
+  hideJoke();
+  enableMainButton();
+}
+
+async function main() {
+  try {
+    disableMainButton();
+    displaySpinnerLoading();
+
+    const joke = await getJokes();
+
+    hideSpinnerLoading();
+
+    textToSpeech(joke);
+    displayJoke(joke);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+mainButton.addEventListener('click', main);
+audioElement.addEventListener('ended', onAudioEnded);

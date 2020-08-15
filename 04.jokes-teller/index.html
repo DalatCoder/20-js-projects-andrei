@@ -13,7 +13,13 @@
       Tell Me A Joke
     </button>
 
-    <audio id="audio" controls></audio>
+    <div id="loader" class="loader" hidden>
+      <img src="loader.svg" alt="Spinner">
+    </div>
+    
+    <div id="joke" class="joke" hidden></div>
+
+    <audio id="audio" controls hidden></audio>
   </div>
     <!-- Script -->
     <script src="script.js"></script>
