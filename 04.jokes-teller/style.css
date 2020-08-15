@@ -22,3 +22,50 @@ body {
   background-position: left center;
   background-repeat: no-repeat;
 }
+
+button {
+  cursor: pointer;
+  outline: none;
+  width: 200px;
+  height: 50px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  color: white;
+  background: #ff3482;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px 20px 10px rgba(0, 0, 0, 0.2);
+ 	
+  -webkit-backface-visibility: hidden; /* add to fix webkit bug jitter */
+  backface-visibility: hidden;
+  -webkit-transform: perspective(1000px) translateZ(0) scale(1.0, 1.0); /* add to fix webkit bug jitter */ 
+  transform: perspective(1000px) translateZ(0) scale(1.0, 1.0);
+
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  filter: brightness(95%);
+}
+
+button:active {
+  transform: scale(0.95) rotate(0.02deg);
+}
+
+button:disabled {
+  cursor: default;
+  filter: brightness(30%);
+}
+
+
+/* Media query: Tablet or Smaller */
+@media screen and (max-width: 1000px) {
+  .container {
+    background-position: center center;
+    background-size: cover;
+  }
+
+  button {
+    box-shadow: 5px 5px 30px 20px rgba(0, 0, 0, 0.5);
+  }
+}
