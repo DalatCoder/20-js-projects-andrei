@@ -57,6 +57,10 @@ button:disabled {
   filter: brightness(30%);
 }
 
+audio:focus {
+  outline: none;
+}
+
 
 /* Media query: Tablet or Smaller */
 @media screen and (max-width: 1000px) {
