@@ -1,3 +1,6 @@
+const button = document.getElementById('button');
+const audioElement = document.getElementById('audio');
+
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
   speech: function (e) {
@@ -101,3 +104,17 @@ const VoiceRSS = {
     throw 'The browser does not support HTTP request';
   },
 };
+
+function test() {
+  VoiceRSS.speech({
+    key: '48b4ea614ffb4ef282590b3c749265b9',
+    src: 'Super Hieu',
+    hl: 'en-us',
+    r: 0,
+    c: 'mp3',
+    f: '44khz_16bit_stereo',
+    ssml: false,
+  });
+}
+
+test();
