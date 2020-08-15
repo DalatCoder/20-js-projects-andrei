@@ -1,5 +1,7 @@
-const button = document.getElementById('button');
+const mainButton = document.getElementById('button');
+const jokeElement = document.getElementById('joke');
 const audioElement = document.getElementById('audio');
+const spinnerLoading = document.getElementById('loader');
 
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
@@ -105,10 +107,10 @@ const VoiceRSS = {
   },
 };
 
-function test() {
+function textToSpeech(text) {
   VoiceRSS.speech({
     key: '48b4ea614ffb4ef282590b3c749265b9',
-    src: 'Super Hieu',
+    src: text,
     hl: 'en-us',
     r: 0,
     c: 'mp3',
@@ -132,10 +134,53 @@ async function getJokes() {
       joke = data.joke;
     }
 
-    console.log(joke);
+    return joke;
   } catch (error) {
-    console.log('Whoops, get joke error: ', error);
+    throw error; // catch in main
   }
 }
 
-getJokes();
+function disableMainButton() {
+  mainButton.disabled = true;
+}
+function enableMainButton() {
+  mainButton.disabled = false;
+}
+function displayJoke(joke) {
+  jokeElement.hidden = false;
+  jokeElement.innerText = joke;
+}
+function hideJoke() {
+  jokeElement.hidden = true;
+  jokeElement.innerText = '';
+}
+function displaySpinnerLoading() {
+  spinnerLoading.hidden = false;
+}
+function hideSpinnerLoading() {
+  spinnerLoading.hidden = true;
+}
+
+function onAudioEnded() {
+  hideJoke();
+  enableMainButton();
+}
+
+async function main() {
+  try {
+    disableMainButton();
+    displaySpinnerLoading();
+
+    const joke = await getJokes();
+
+    hideSpinnerLoading();
+
+    textToSpeech(joke);
+    displayJoke(joke);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+mainButton.addEventListener('click', main);
+audioElement.addEventListener('ended', onAudioEnded);
