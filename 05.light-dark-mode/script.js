@@ -13,6 +13,7 @@ function setImageMode(theme) {
 }
 
 function darkMode() {
+  document.documentElement.setAttribute('data-theme', 'dark');
   nav.style.backgroundColor = 'rgb(0 0 0 / 50%)';
   textBox.style.backgroundColor = 'rgb(255 255 255 / 50%)';
   toggleIcon.children[0].textContent = 'Dark Mode';
@@ -32,12 +33,22 @@ function switchTheme(event) {
   // Dark mode
   if (event.target.checked) {
     // Get root element
-    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
     darkMode();
   } else {
     document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
     lightMode();
   }
 }
 
 toggleSwitch.addEventListener('change', switchTheme);
+
+// Check local storage for theme
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+
+if (currentTheme === 'dark') {
+  toggleSwitch.checked = true;
+  darkMode();
+}
